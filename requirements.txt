@@ -1,0 +1,44 @@
+# Core web frameworks
+fastapi
+uvicorn[standard]
+flask
+flask-cors
+python-dotenv
+python-multipart
+aiohttp
+
+# Database & API clients
+supabase
+psycopg2-binary
+elasticsearch
+httpx
+
+# File & document handling
+python-pptx
+python-docx
+openpyxl
+xlsxwriter
+reportlab
+pypdf2
+pillow
+chardet
+pandas
+matplotlib
+
+# Automation / browser tools
+playwright
+
+# Modules for Clerk user authentication
+pyjwt>=2.8.0
+cryptography>=41.0.0
+requests>=2.31.0
+
+svix
+stripe
+anthropic
+websockets
+seaborn
+unkey-py>=2.0.4
+
+# Modules for Tuner
+boto3==1.34.0

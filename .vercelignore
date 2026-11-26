@@ -1,0 +1,63 @@
+# Python backend (deployed on Render)
+core/
+llm/
+tools/
+compiler
+comprehensive_formatting_prompts
+scan_imports
+*.py
+*.pyc
+__pycache__/
+
+# Python virtual environments
+python_env/
+opexenv/
+venv/
+env/
+
+# Test artifacts
+test_output/
+
+# Runtime folders
+uploads/
+
+# Electron files (derelict)
+main.js
+preload.js
+main-2.js
+preload-2.js
+
+# Build artifacts
+.next/
+dist/
+out/
+app/
+
+# Dependencies (will be reinstalled)
+node_modules/
+
+# Cache
+.cache/
+_pycache_/
+
+# Environment files (set in Vercel dashboard)
+.env
+.env.local
+.env.production
+.env.development
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
