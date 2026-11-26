@@ -4,39 +4,24 @@
 
 **AI agents that can keep working without a human, because they check their own memory against reality.**
 
-Close the Loop is an open-source agent system from Xuanwo AI. Its agents set their own wake-up times, keep a written record of what they believe they owe and why, and have a separate agent check those beliefs against the real world before acting on them. Everything runs on your own computer, with your own model keys and your own mailbox.
+Close the Loop is an open-source agent system from Xuanwo Huanliu （漩涡环流）. Its agents set their own wake-up times, keep a written record of what they believe they owe and why, and have a separate agent check those beliefs against the real world before acting on them. Everything runs on your own computer, with your own model keys and your own mailbox.
 
 ---
 
 ## The problem
 
-Today's agents still need a human to keep them on track. When an agent works on its own for a long time, the notes it leaves for itself drift away from reality. It "remembers" sending an email it never sent, or a meeting that has since been cancelled, and then it acts on those false beliefs. Better memory doesn't fix this, because a memory store records a false belief just as faithfully as a true one.
+Today's agents still need a human to keep them on track. When an agent works on its own for a long time, the notes it leaves for itself drift away from reality. This problem of "agentic degradation" is a well-known one, and today's agents appear to need better memory implementations.
 
-So every agent product keeps a human in the loop. Agents can be triggered on a schedule, but they can't be trusted to direct their own work.
+Close The Loop's premise is that the agentic degradation problem is not a memory problem. Agents degrade not because of imperfect memory, but because a perfect memory cannot perfectly deal with an everchanging outside world. What agents are lacking is verification of what's real and what isn't, whether the context has changed, what has changed about the plan, etc. 
 
 ## The idea
 
-Close the Loop adds three agents, each owning one question:
-
-- **The scheduler owns *when*.** An agent can set its own wake-up. At the chosen time it wakes with the message it left itself and carries on, as if you had typed it. Wake-ups are registered in Windows Task Scheduler, so they fire even if the app was closed, and a wake-up missed while the computer slept fires late rather than never.
-- **The ledger owns *what* and *why*.** It writes directives: concrete future actions, each resting on exact evidence such as a Message-ID or a file path. The ledger is a folder of dated, append-only files on your computer, so the record survives the chat.
-- **The auditor owns *whether it is still true*.** Before anything acts on a directive, the auditor checks it against records that exist outside the agents' own notes, such as your Sent folder, your inbox and files on disk. It returns one verdict per directive: confirmed, stale, contradicted or unverifiable. The ledger applies the verdict, closing what turned out to be false.
-
-Notes are never evidence for themselves. A "confirmed" verdict with no evidence attached is recorded as "unverifiable", and directives an agent writes for itself start with reversible-only authority: it may draft, never send.
-
-## The proof: a planted false belief
-
-We told the system that two emails had been sent: one titled "Scheduler test", which really had been sent, and one titled "Q4 budget figures", which had not.
-
-The ledger recorded both without judgement. The auditor searched the real Gmail Sent folder, widening its search window three times, confirmed the first email by its Message-ID, and found no trace of the second. The ledger then closed the false directive. A false belief went into the record, was checked against reality, and came out.
-
-Halfway through, the page was accidentally refreshed. When the test was rerun, the ledger found its directives and the auditor's verdicts already on disk and carried on without duplicating anything. The record lives on the machine, not in the chat.
+Close the Loop adds a trifecta of agentic capabilities to regular local agents:
+1. The scheduler agent sets its own wake-up, and Windows wakes it with the message it left itself, even if the app was closed. This enables continuous, around-the-clock checking for mailbox activity amongst the agents. You can use the scheduler to have the other agents regularly check into your mailbox throughout a working day.
+2. The ledger agent records every single piece of evidence in a diary-like format. It also takes the findings of the auditor and records that down too, allowing the removal of incorrect beliefs or records that may previously exist within the ledger.
+3. The auditor agent is activated before anything acts. It checks each entry against records outside the agents' own notes (your Sent folder, your inbox, your files) and returns confirmed, stale, contradicted or unverifiable.
 
 ## How it works
-
-Boundary's agent loop runs on a local server. A Summarizer reads the request, a Planner chooses the next executor, the executor does one job, and the loop repeats until the task is done. Independent work can run as parallel sub-agents.
-
-The scheduler, auditor and ledger are ordinary executors to the Planner. Inside, the auditor and ledger each run their own loop beneath the main Planner, dispatching other executors and sub-agents to gather evidence before they finish.
 
 Anything that touches your computer goes through the **bridge**, a small Python script with no dependencies that you run in a terminal. Email is read and sent directly over IMAP and SMTP from your machine, so any provider with an app password works.
 
@@ -117,18 +102,19 @@ Then try the planted error. Tell the ledger about one email you really sent and 
 
 ## Limits
 
-- This is an early research release. One clean run proves the idea works; open testing on many machines and messy inboxes is how we'll learn how well it works and where it bends.
+- This is an early research release, with very limited testing to prove capabilities.
 - Scheduling is Windows-only for now.
 - The bridge runs the commands your local agents send it, on your computer. Run it only on a machine you trust, with a `BRIDGE_TOKEN` nobody else knows.
 - The calendar can't be read yet, so the auditor can only check meetings through their email threads.
-
-## Where this is going
-
-Email is the first proving ground. The same problem, agents acting on beliefs nobody has checked, stands between today's AI and machines that work in the physical world. Close the Loop is our path from agents in your inbox to agents on robots, improving their own work with no human in the loop.
+- There is a known problem with the DocsExecutor, an agent that produces Word documents, being called up instead of the auditor. If the agents are stuck here, please request them to try again to call up the auditor, a retry usually fixes it.
 
 ## Contributing
 
 Issues and pull requests are welcome. If Close the Loop breaks on your machine or your mailbox, that is exactly what we want to hear about.
+
+## Paid Version
+
+**Don't want to run it yourself?** Close the Loop also runs as a hosted app, Boundary, at https://boundary.xuanwo.ai: no setup, no model keys and no server to keep running, on paid plans. You still run the small bridge on your own computer. Note that users may register for free, but free users have zero tokens. Please sign up with a payment plan to receive tokens and run the app.
 
 ## License
 
